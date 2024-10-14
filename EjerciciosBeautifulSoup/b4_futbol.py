@@ -89,7 +89,7 @@ def almacenar_bd():
                 conn.execute("""INSERT INTO JORNADAS VALUES (?,?,?,?,?,?)""",(jornada,local,visitante,goles_l,goles_v,link))
     conn.commit()
     cursor = conn.execute("SELECT COUNT(*) FROM JORNADAS")
-    
+    #Mensaje de alerta de que el insert ha sido exitoso, mostrando el numero de datos
     messagebox.showinfo( "Base Datos", "Base de datos creada correctamente \nHay " + str(cursor.fetchone()[0]) + " registros")
     conn.close()
 
@@ -159,8 +159,9 @@ def estadistica_jornada():
             else:
                 visitantes +=1          
         conn.close()
-        
+        #Texto con las estadísticas y saltos de linea necesarios
         s = "TOTAL GOLES JORNADA : " + str(total_goles)+ "\n\n" + "EMPATES : " + str(empates) + "\n" + "VICTORIAS LOCALES : " + str(locales) + "\n" + "VICTORIAS VISITANTES : " + str(visitantes)
+        #Se crea la ventana que contiene las estadísticas, con el texto
         v = Toplevel()
         lb = Label(v, text=s) 
         lb.pack()
@@ -171,10 +172,13 @@ def estadistica_jornada():
     valores=[i[0] for i in cursor]
     conn.close()
     
+    #Crear ventana y darle título
     v = Toplevel()
+    # Texto sobre el buscador
     lb = Label(v, text="Seleccione la jornada: ")
     lb.pack(side = LEFT)  
     en = Spinbox(v, values=valores, state="readonly" )
+    #Se bindea una tecla del teclado con una llamada a función
     en.bind("<Return>", listar_estadistica)
     en.pack(side = LEFT)
     
